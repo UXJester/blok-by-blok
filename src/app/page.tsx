@@ -16,7 +16,7 @@ export default async function Home() {
 
   try {
     const data = await fetch(
-      `https://api.storyblok.com/v2/cdn/stories?version=${version}&token=${token}`
+      `${process.env.STORYBLOK_API_URL}/stories?version=${version}&token=${token}`
     );
 
     if (!data.ok) {
@@ -34,7 +34,7 @@ export default async function Home() {
           {isDraftMode ? 'Draft' : 'Published'}
         </p>
         <p className="mb-4 text-sm text-gray-600">
-          Data URL: https://api.storyblok.com/v2/cdn/stories?version=
+          Data URL: {process.env.STORYBLOK_API_URL}/stories?version=
           {version}&token={token}
         </p>
         <ul>
