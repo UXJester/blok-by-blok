@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import Markdown from '@/components/Markdown';
 import { Story, SingleStoryResponse } from '@/types/blokTypes';
 import { getStoryblokConfig } from '@/utils/storyblok';
@@ -68,12 +69,23 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <article className="rounded-lg shadow-md p-8">
-        {title && <h1 className="text-4xl font-bold mb-8">{title}</h1>}
+      <div className="mb-6">
+        <Link
+          href="/"
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-900 transition-colors"
+        >
+          ← Back to Home
+        </Link>
+      </div>
+
+      <article className="bg-white rounded-lg shadow-md p-8">
+        {title && (
+          <h1 className="text-4xl font-bold mb-8 text-gray-950">{title}</h1>
+        )}
 
         {content && (
           <Markdown
-            className="prose prose-lg max-w-none"
+            className="prose prose-lg max-w-none text-gray-900"
             content={content as string}
           />
         )}
