@@ -1,44 +1,65 @@
 import { Story, StoriesResponse } from '@/types/blokTypes';
+import { getStoryblokConfig } from '@/utils/storyblok';
+
 export default async function Home() {
-  const isDraftMode = process.env.DRAFT_MODE === 'true';
-  const isPreview = process.env.ENVIRONMENT !== 'production';
+  const { token, version, isDraftMode, isPreview } = getStoryblokConfig();
 
-  // Production always uses production token and published version
-  // Preview environment uses preview token and respects DRAFT_MODE
-  const token = isPreview
-    ? process.env.STORYBLOCK_PREVIEW_ACCESS_TOKEN
-    : process.env.STORYBLOCK_ACCESS_TOKEN;
+  if (!token) {
+    console.error('STORYBLOK_ACCESS_TOKEN is not configured');
+    return (
+      <div>
+        <h1>Welcome to the Storyblok Demo</h1>
+        <p className="text-red-500">Error: Storyblok token not configured</p>
+      </div>
+    );
+  }
 
-  const version = isPreview && isDraftMode ? 'draft' : 'published';
+  try {
+    const data = await fetch(
+      `https://api.storyblok.com/v2/cdn/stories?version=${version}&token=${token}`
+    );
 
-  const data = await fetch(
-    `https://api.storyblok.com/v2/cdn/stories?version=${version}&token=${token}`
-  );
-  const response: StoriesResponse = await data.json();
+    if (!data.ok) {
+      throw new Error(`Failed to fetch stories: ${data.status}`);
+    }
 
-  const stories = response.stories || [];
+    const response: StoriesResponse = await data.json();
+    const stories = response.stories || [];
 
-  return (
-    <div>
-      <h1>Welcome to the Storyblok Demo</h1>
-      <p className="text-sm text-gray-600">
-        Environment: {isPreview ? 'Preview' : 'Production'} | Mode:{' '}
-        {isDraftMode ? 'Draft' : 'Published'}
-      </p>
-      <p className="mb-4 text-sm text-gray-600">
-        Data URL: https://api.storyblok.com/v2/cdn/stories?version=
-        {version}&token={token}
-      </p>
-      <ul>
-        {stories.map((story: Story) => (
-          <li key={story.id}>
-            <a href={`/${story.slug}`}>
-              <h2>{story.name}</h2>
-              <p>Created: {new Date(story.created_at).toLocaleDateString()}</p>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+    return (
+      <div>
+        <h1>Welcome to the Storyblok Demo</h1>
+        <p className="text-sm text-gray-600">
+          Environment: {isPreview ? 'Preview' : 'Production'} | Mode:{' '}
+          {isDraftMode ? 'Draft' : 'Published'}
+        </p>
+        <p className="mb-4 text-sm text-gray-600">
+          Data URL: https://api.storyblok.com/v2/cdn/stories?version=
+          {version}&token={token}
+        </p>
+        <ul>
+          {stories.map((story: Story) => (
+            <li key={story.id}>
+              <a href={`/${story.slug}`}>
+                <h2>{story.name}</h2>
+                <p>
+                  Created: {new Date(story.created_at).toLocaleDateString()}
+                </p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  } catch (error) {
+    console.error('Error fetching stories:', error);
+    return (
+      <div>
+        <h1>Welcome to the Storyblok Demo</h1>
+        <p className="text-red-500">
+          Error loading stories. Please try again later.
+        </p>
+      </div>
+    );
+  }
 }
