@@ -2,14 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-
-interface EnvironmentToggleProps {
-  currentEnvironment: string;
-  currentDraftMode: boolean;
-  apiUrl: string;
-  version: string;
-  token: string;
-}
+import { EnvironmentToggleProps } from '@/types/blokTypes';
 
 export default function EnvironmentToggle({
   currentEnvironment,

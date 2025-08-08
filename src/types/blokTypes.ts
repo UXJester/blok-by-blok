@@ -29,3 +29,12 @@ export interface MarkdownProps {
   content: string;
   className?: string;
 }
+
+// Environment toggle component props
+export interface EnvironmentToggleProps {
+  currentEnvironment: string;
+  currentDraftMode: boolean;
+  apiUrl: string;
+  version: string;
+  token: string;
+}
