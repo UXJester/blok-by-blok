@@ -2,7 +2,7 @@ import { Story, StoriesResponse } from '@/types/blokTypes';
 import { getStoryblokConfig } from '@/utils/storyblok';
 
 export default async function Home() {
-  const { token, version, isDraftMode, isPreview } = await getStoryblokConfig();
+  const { token, version } = await getStoryblokConfig();
 
   if (!token) {
     console.error('STORYBLOK_ACCESS_TOKEN is not configured');
@@ -29,10 +29,6 @@ export default async function Home() {
     return (
       <div>
         <h1>Welcome to the Storyblok Demo</h1>
-        <p className="text-sm text-gray-600">
-          Environment: {isPreview ? 'Preview' : 'Production'} | Mode:{' '}
-          {isDraftMode ? 'Draft' : 'Published'}
-        </p>
         <ul>
           {stories.map((story: Story) => (
             <li key={story.id}>

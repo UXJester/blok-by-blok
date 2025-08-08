@@ -15,6 +15,15 @@ export default function EnvironmentToggle({
   const [isExpanded, setIsExpanded] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
+  // Check if we're in Preview environment (Vercel preview deployment)
+  const isPreviewEnvironment = process.env.VERCEL_ENV === 'preview';
+  const isProductionEnvironment = process.env.VERCEL_ENV === 'production';
+
+  // Don't render anything in production environment
+  if (isProductionEnvironment) {
+    return null;
+  }
+
   const toggleEnvironment = async () => {
     setIsLoading(true);
     const newEnv =
@@ -103,29 +112,35 @@ export default function EnvironmentToggle({
           </div>
 
           <div className="flex flex-col gap-2">
-            <button
-              onClick={toggleEnvironment}
-              disabled={isLoading || currentDraftMode}
-              className={`px-3 py-1 text-sm text-white rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
-                currentEnvironment === 'development'
-                  ? 'bg-orange-600 hover:bg-orange-700 disabled:hover:bg-orange-600'
-                  : 'bg-blue-500 hover:bg-blue-600 disabled:hover:bg-blue-500'
-              }`}
-            >
-              {isLoading
-                ? 'Switching...'
-                : currentDraftMode
-                ? 'Environment (Disable Draft First)'
-                : `Switch to ${
-                    currentEnvironment === 'development'
-                      ? 'Production'
-                      : 'Development'
-                  }`}
-            </button>
+            {/* Only show environment toggle in development (not in Preview) */}
+            {!isPreviewEnvironment && (
+              <button
+                onClick={toggleEnvironment}
+                disabled={isLoading || currentDraftMode}
+                className={`px-3 py-1 text-sm text-white rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
+                  currentEnvironment === 'development'
+                    ? 'bg-orange-600 hover:bg-orange-700 disabled:hover:bg-orange-600'
+                    : 'bg-blue-500 hover:bg-blue-600 disabled:hover:bg-blue-500'
+                }`}
+              >
+                {isLoading
+                  ? 'Switching...'
+                  : currentDraftMode
+                  ? 'Environment (Disable Draft First)'
+                  : `Switch to ${
+                      currentEnvironment === 'development'
+                        ? 'Production'
+                        : 'Development'
+                    }`}
+              </button>
+            )}
 
             <button
               onClick={toggleDraftMode}
-              disabled={isLoading || currentEnvironment === 'production'}
+              disabled={
+                isLoading ||
+                (!isPreviewEnvironment && currentEnvironment === 'production')
+              }
               className={`px-3 py-1 text-sm text-white rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
                 currentDraftMode
                   ? 'bg-red-800 hover:bg-red-900 disabled:hover:bg-red-800'
@@ -134,18 +149,21 @@ export default function EnvironmentToggle({
             >
               {isLoading
                 ? 'Toggling...'
-                : currentEnvironment === 'production'
+                : !isPreviewEnvironment && currentEnvironment === 'production'
                 ? 'Draft Mode (Production Only)'
                 : `${currentDraftMode ? 'Disable' : 'Enable'} Draft Mode`}
             </button>
 
-            <button
-              onClick={clearCookies}
-              disabled={isLoading}
-              className="px-3 py-1 text-sm bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-500"
-            >
-              {isLoading ? 'Clearing...' : 'Reset to .env'}
-            </button>
+            {/* Only show reset button in development (not in Preview) */}
+            {!isPreviewEnvironment && (
+              <button
+                onClick={clearCookies}
+                disabled={isLoading}
+                className="px-3 py-1 text-sm bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-500"
+              >
+                {isLoading ? 'Clearing...' : 'Reset to .env'}
+              </button>
+            )}
 
             <div className="text-xs text-gray-600 mt-2 flex divide-x">
               <div className="px-2">Env: {currentEnvironment}</div>
