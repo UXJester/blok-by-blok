@@ -1,7 +1,4 @@
-interface MarkdownProps {
-  content: string;
-  className?: string;
-}
+import { MarkdownProps } from '@/types/blokTypes';
 
 const Markdown = ({ content, className = '' }: MarkdownProps) => {
   if (!content) {
