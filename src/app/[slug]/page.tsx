@@ -10,7 +10,7 @@ interface PageProps {
 }
 
 async function getStory(slug: string): Promise<Story | null> {
-  const { token, version } = getStoryblokConfig();
+  const { token, version } = await getStoryblokConfig();
 
   if (!token) {
     console.error('STORYBLOK_ACCESS_TOKEN is not configured');
@@ -65,17 +65,9 @@ export default async function Page({ params }: PageProps) {
   }
 
   const { title, content } = story.content;
-  const { token, version } = getStoryblokConfig();
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <p className="text-sm text-gray-600">
-        Environment: {process.env.ENVIRONMENT} | Version: {version}
-      </p>
-      <p className="mb-4 text-sm text-gray-600">
-        Data URL: {process.env.STORYBLOK_API_URL}/stories/{slug}?version=
-        {version}&token={token}
-      </p>
       <article className="rounded-lg shadow-md p-8">
         {title && <h1 className="text-4xl font-bold mb-8">{title}</h1>}
 
