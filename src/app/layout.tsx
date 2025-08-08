@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Storyblok Demo',
-  description: 'Presentation of Storyblok with Next.js',
+  title: 'Blok by Blok',
+  description: 'A Next.js app using Storyblok Content Delivery API',
 };
 
 export default function RootLayout({
