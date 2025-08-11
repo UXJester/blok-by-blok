@@ -1,4 +1,7 @@
+// Types
 import { Story, StoriesResponse } from '@/types/blokTypes';
+
+// Utils
 import { getStoryblokConfig } from '@/utils/storyblok';
 
 export default async function Home() {
