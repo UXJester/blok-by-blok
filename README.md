@@ -1,36 +1,179 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blok by Blok
+
+A Next.js application powered by Storyblok CMS for dynamic content management and delivery. Features draft mode, environment switching, and markdown rendering capabilities.
+
+## Features
+
+- 🚀 Built with Rect 19+, Next.js 15+, and App Router
+- 📝 Storyblok CMS integration for dynamic content management
+- 🔄 Draft mode for content preview switching
+- 🌍 Environment switching (development/production)
+- 📱 Dynamic slug-based routing for flexible page creation
+- 🛠️ TypeScript support for type safety
+- 📰 Markdown rendering capabilities
+- 🍪 Cookie-based environment and draft mode management
 
 ## Getting Started
 
-First, run the development server:
+1. **Install dependencies:**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+   ```bash
+   npm install
+   ```
+
+2. **Set up environment variables:**
+
+   Create a `.env` file in the root directory:
+
+   ```bash
+   # Environment Configuration
+   ENVIRONMENT=development
+
+   # Storyblok Configuration
+   STORYBLOK_API_URL=https://api.storyblok.com/v2/cdn
+   STORYBLOK_ACCESS_TOKEN=your_access_token_here
+   STORYBLOK_PREVIEW_ACCESS_TOKEN=your_preview_token_here
+
+   # Draft Mode
+   DRAFT_MODE=true
+   ```
+
+   Replace `your_access_token_here` and `your_preview_token_here` with your actual Storyblok tokens from your Storyblok space settings.
+
+3. **Run the development server:**
+
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser:**
+   Navigate to [http://localhost:3000](http://localhost:3000) to see the application.
+
+## Project Structure
+
+```
+blok-by-blok/
+├── src/
+│   ├── app/                 # Next.js App Router
+│   │   ├── globals.css     # Global CSS styles
+│   │   ├── layout.tsx      # Root layout component
+│   │   ├── page.tsx        # Home page component
+│   │   ├── favicon.ico     # App favicon
+│   │   ├── [slug]/         # Dynamic routing for Storyblok pages
+│   │   │   └── page.tsx    # Dynamic page component
+│   │   └── api/            # API routes for Storyblok integration
+│   │       ├── clear-cookies/
+│   │       │   └── route.ts    # Clear environment/draft cookies
+│   │       ├── set-draft-mode/
+│   │       │   └── route.ts    # Enable/disable draft mode
+│   │       └── set-environment/
+│   │           └── route.ts    # Switch between environments
+│   ├── components/          # Reusable UI components
+│   │   ├── CookieNotice.tsx    # Cookie consent notice
+│   │   ├── EnvironmentToggle.tsx   # Environment switcher
+│   │   └── Markdown.tsx        # Markdown content renderer
+│   ├── types/
+│   │   └── blokTypes.ts    # Storyblok type definitions
+│   └── utils/
+│       └── storyblok.ts    # Storyblok API utilities
+├── package.json            # Dependencies and scripts
+├── tsconfig.json          # TypeScript configuration
+└── README.md              # Project documentation
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Key Development Areas
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Dynamic Routing (`[slug]`):**
 
-## Learn More
+   - `app/[slug]/page.tsx` handles all dynamic pages from Storyblok
+   - Pages are created dynamically based on Storyblok story slugs
+   - Supports nested routes and custom page structures from CMS
 
-To learn more about Next.js, take a look at the following resources:
+2. **Storyblok API Integration:**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   - `src/utils/storyblok.ts` contains API utilities and configuration
+   - `src/types/blokTypes.ts` defines TypeScript types for Storyblok content
+   - Handles content fetching, draft mode, and environment switching
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **API Routes:**
 
-## Deploy on Vercel
+   - `api/clear-cookies/route.ts` - Clears environment and draft mode cookies
+   - `api/set-draft-mode/route.ts` - Toggles draft mode for content preview
+   - `api/set-environment/route.ts` - Switches between development/production environments
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **Components:**
+   - `CookieNotice.tsx` - Manages cookie consent and notifications
+   - `EnvironmentToggle.tsx` - UI for switching between environments
+   - `Markdown.tsx` - Renders markdown content from Storyblok
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Storyblok Features
+
+- **Draft Mode:** Preview unpublished content using `/api/set-draft-mode`
+- **Environment Switching:** Toggle between dev/prod content via `/api/set-environment`
+- **Dynamic Pages:** All CMS pages accessible via `/[slug]` route
+- **Cookie Management:** Environment and draft preferences stored in cookies
+
+### Development Commands
+
+```bash
+npm run dev     # Start development server
+npm run build   # Build for production
+npm run start   # Start production server
+npm run lint    # Run ESLint
+```
+
+### Working with Content
+
+- Content is managed through Storyblok CMS
+- Pages are automatically created based on story slugs
+- Use draft mode to preview content before publishing
+- Switch environments to test different content versions
+
+## Environment Variables
+
+For local development, you'll need to configure the following environment variables in your `.env.local` file:
+
+### Required Variables
+
+- **`ENVIRONMENT`** - Sets the current environment (`development` or `production`)
+- **`STORYBLOK_API_URL`** - Storyblok API endpoint (default: `https://api.storyblok.com/v2/cdn`)
+- **`STORYBLOK_ACCESS_TOKEN`** - Your Storyblok access token for fetching published content
+- **`STORYBLOK_PREVIEW_ACCESS_TOKEN`** - Your Storyblok preview token for draft content access
+- **`DRAFT_MODE`** - Enable/disable draft mode by default (`true` or `false`)
+
+### Getting Storyblok Tokens
+
+1. Log into your [Storyblok](https://app.storyblok.com/) account
+2. Navigate to your space settings
+3. Go to the "Access Tokens" section
+4. Copy the "Preview" token for `STORYBLOK_PREVIEW_ACCESS_TOKEN`
+5. Copy the "Public" token for `STORYBLOK_ACCESS_TOKEN`
+
+### Example `.env.local`
+
+```bash
+ENVIRONMENT=development
+STORYBLOK_API_URL=https://api.storyblok.com/v2/cdn
+STORYBLOK_ACCESS_TOKEN=your_public_token_here
+STORYBLOK_PREVIEW_ACCESS_TOKEN=your_preview_token_here
+DRAFT_MODE=true
+```
+
+**Note:** Never commit your `.env.local` file to version control. It's already included in `.gitignore`.
+
+## Tech Stack
+
+- **Library:** React 19+
+- **Framework:** Next.js 15+ with App Router
+- **CMS:** Storyblok for content management
+- **Language:** TypeScript
+- **Styling:** CSS Modules
+- **Content:** Markdown rendering support
+
+## Deployment
+
+Deploy easily on [Vercel](https://vercel.com/new) or any platform that supports Next.js applications.
+
+For detailed deployment instructions, see the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying).
