@@ -168,7 +168,8 @@ export default function EnvironmentToggle({
             <div className="text-xs text-gray-600 mt-2 border-t pt-2">
               <div className="mb-1">API URL:</div>
               <div className="font-mono text-xs break-all">
-                {apiUrl}/stories?version={version}&token={token}
+                {apiUrl}/stories?version={version}&token=
+                {currentEnvironment === 'development' ? token : '***'}
               </div>
             </div>
           </div>
