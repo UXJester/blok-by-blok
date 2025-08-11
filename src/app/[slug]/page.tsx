@@ -1,7 +1,14 @@
+// Next.js
 import { notFound } from 'next/navigation';
+
+// Components
 import Link from 'next/link';
 import Markdown from '@/components/Markdown';
+
+// Types
 import { Story, SingleStoryResponse, PageProps } from '@/types/blokTypes';
+
+// Utils
 import { getStoryblokConfig } from '@/utils/storyblok';
 
 async function getStory(slug: string): Promise<Story | null> {
