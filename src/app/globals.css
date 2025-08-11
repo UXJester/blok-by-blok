@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
@@ -24,3 +24,40 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes expand {
+  from {
+    opacity: 0;
+    transform: scale(0) translate(20px, -20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translate(0, 0);
+  }
+}
+
+@keyframes collapse {
+  from {
+    opacity: 1;
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0) translate(20px, -20px);
+  }
+}
+
+.animate-expand {
+  animation: expand 0.2s ease-out forwards;
+}
+
+.animate-collapse {
+  animation: collapse 0.2s ease-in forwards;
+}
+
+/* 
+ * TailwindCSS v4 restricts the `hover` variant to the primary input device, which can prevent hover styles from being applied on devices with touch input (e.g., Surface Pro 11).
+ * Defining a custom `hover` variant here ensures that hover states are consistently applied across all input types, including touchscreens.
+ */
+
+@custom-variant hover (&:hover);

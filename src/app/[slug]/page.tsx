@@ -1,16 +1,11 @@
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import Markdown from '@/components/Markdown';
-import { Story, SingleStoryResponse } from '@/types/blokTypes';
+import { Story, SingleStoryResponse, PageProps } from '@/types/blokTypes';
 import { getStoryblokConfig } from '@/utils/storyblok';
 
-interface PageProps {
-  params: Promise<{
-    slug: string;
-  }>;
-}
-
 async function getStory(slug: string): Promise<Story | null> {
-  const { token, version } = getStoryblokConfig();
+  const { token, version } = await getStoryblokConfig();
 
   if (!token) {
     console.error('STORYBLOK_ACCESS_TOKEN is not configured');
@@ -65,23 +60,26 @@ export default async function Page({ params }: PageProps) {
   }
 
   const { title, content } = story.content;
-  const { token, version } = getStoryblokConfig();
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <p className="text-sm text-gray-600">
-        Environment: {process.env.ENVIRONMENT} | Version: {version}
-      </p>
-      <p className="mb-4 text-sm text-gray-600">
-        Data URL: {process.env.STORYBLOK_API_URL}/stories/{slug}?version=
-        {version}&token={token}
-      </p>
-      <article className="rounded-lg shadow-md p-8">
-        {title && <h1 className="text-4xl font-bold mb-8">{title}</h1>}
+      <div className="mb-6">
+        <Link
+          href="/"
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-900 transition-colors"
+        >
+          ← Back to Home
+        </Link>
+      </div>
+
+      <article className="bg-white rounded-lg shadow-md p-8">
+        {title && (
+          <h1 className="text-4xl font-bold mb-8 text-gray-950">{title}</h1>
+        )}
 
         {content && (
           <Markdown
-            className="prose prose-lg max-w-none"
+            className="prose prose-lg max-w-none text-gray-900"
             content={content as string}
           />
         )}

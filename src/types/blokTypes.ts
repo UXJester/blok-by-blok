@@ -24,8 +24,24 @@ export interface StoriesResponse {
   stories?: Story[];
 }
 
+// Slug Page Props
+export interface PageProps {
+  params: Promise<{
+    slug: string;
+  }>;
+}
+
 // Markdown component props
 export interface MarkdownProps {
   content: string;
   className?: string;
+}
+
+// Environment toggle component props
+export interface EnvironmentToggleProps {
+  currentEnvironment: string;
+  currentDraftMode: boolean;
+  apiUrl: string;
+  version: string;
+  token: string;
 }
