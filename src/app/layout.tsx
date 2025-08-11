@@ -32,7 +32,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {process.env.VERCEL_ENV !== 'production' && (
+        {environment !== 'production' && (
           <EnvironmentToggle
             currentEnvironment={environment}
             currentDraftMode={isDraftMode}
