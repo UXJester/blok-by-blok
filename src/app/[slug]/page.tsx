@@ -1,14 +1,8 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Markdown from '@/components/Markdown';
-import { Story, SingleStoryResponse } from '@/types/blokTypes';
+import { Story, SingleStoryResponse, PageProps } from '@/types/blokTypes';
 import { getStoryblokConfig } from '@/utils/storyblok';
-
-interface PageProps {
-  params: Promise<{
-    slug: string;
-  }>;
-}
 
 async function getStory(slug: string): Promise<Story | null> {
   const { token, version } = await getStoryblokConfig();

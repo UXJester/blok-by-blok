@@ -24,6 +24,13 @@ export interface StoriesResponse {
   stories?: Story[];
 }
 
+// Slug Page Props
+export interface PageProps {
+  params: Promise<{
+    slug: string;
+  }>;
+}
+
 // Markdown component props
 export interface MarkdownProps {
   content: string;
