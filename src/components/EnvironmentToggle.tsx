@@ -119,8 +119,8 @@ export default function EnvironmentToggle({
                 disabled={isLoading || currentDraftMode}
                 className={`px-3 py-1 text-sm text-white rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
                   currentEnvironment === 'development'
-                    ? 'bg-orange-600 hover:bg-orange-700 disabled:hover:bg-orange-600'
-                    : 'bg-blue-500 hover:bg-blue-600 disabled:hover:bg-blue-500'
+                    ? 'bg-blue-500 hover:bg-blue-600 disabled:hover:bg-blue-500'
+                    : 'bg-orange-600 hover:bg-orange-700 disabled:hover:bg-orange-600'
                 }`}
               >
                 {isLoading
@@ -150,7 +150,7 @@ export default function EnvironmentToggle({
               {isLoading
                 ? 'Toggling...'
                 : !isPreviewEnvironment && currentEnvironment === 'production'
-                ? 'Draft Mode (Production Only)'
+                ? 'Draft Mode (Available in Preview Only)'
                 : `${currentDraftMode ? 'Disable' : 'Enable'} Draft Mode`}
             </button>
 
