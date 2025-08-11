@@ -61,7 +61,7 @@ blok-by-blok/
 │   │   ├── favicon.ico     # App favicon
 │   │   ├── [slug]/         # Dynamic routing for Storyblok pages
 │   │   │   └── page.tsx    # Dynamic page component
-│   │   └── api/            # API routes for Storyblok integration
+│   │   └── api/            # Utility API routes
 │   │       ├── clear-cookies/
 │   │       │   └── route.ts    # Clear environment/draft cookies
 │   │       ├── set-draft-mode/
@@ -70,7 +70,7 @@ blok-by-blok/
 │   │           └── route.ts    # Switch between environments
 │   ├── components/          # Reusable UI components
 │   │   ├── CookieNotice.tsx    # Cookie consent notice
-│   │   ├── EnvironmentToggle.tsx   # Environment switcher
+│   │   ├── EnvironmentToggle.tsx   # Environment Controls
 │   │   └── Markdown.tsx        # Markdown content renderer
 │   ├── types/
 │   │   └── blokTypes.ts    # Storyblok type definitions
@@ -87,14 +87,14 @@ blok-by-blok/
 
 1. **Dynamic Routing (`[slug]`):**
 
-   - `app/[slug]/page.tsx` handles all dynamic pages from Storyblok
-   - Pages are created dynamically based on Storyblok story slugs
+   - `app/[slug]/page.tsx` handles all dynamic pages
+   - Pages are created dynamically based on story slugs
    - Supports nested routes and custom page structures from CMS
 
 2. **Storyblok API Integration:**
 
    - `src/utils/storyblok.ts` contains API utilities and configuration
-   - `src/types/blokTypes.ts` defines TypeScript types for Storyblok content
+   - `src/types/blokTypes.ts` defines TypeScript types for content
    - Handles content fetching, draft mode, and environment switching
 
 3. **API Routes:**
@@ -133,14 +133,14 @@ npm run lint    # Run ESLint
 
 ## Environment Variables
 
-For local development, you'll need to configure the following environment variables in your `.env.local` file:
+For local development, you'll need to configure the following environment variables in your `.env` file:
 
 ### Required Variables
 
-- **`ENVIRONMENT`** - Sets the current environment (`development` or `production`)
+- **`ENVIRONMENT`** - Only needed for `local development` - Sets the current environment (`development`, `preview` or `production`)
 - **`STORYBLOK_API_URL`** - Storyblok API endpoint (default: `https://api.storyblok.com/v2/cdn`)
-- **`STORYBLOK_ACCESS_TOKEN`** - Your Storyblok access token for fetching published content
-- **`STORYBLOK_PREVIEW_ACCESS_TOKEN`** - Your Storyblok preview token for draft content access
+- **`STORYBLOK_ACCESS_TOKEN`** - Your Storyblok access token for fetching _public_ `published` content
+- **`STORYBLOK_PREVIEW_ACCESS_TOKEN`** - Your Storyblok token for _preview_ draft and published content access
 - **`DRAFT_MODE`** - Enable/disable draft mode by default (`true` or `false`)
 
 ### Getting Storyblok Tokens
@@ -151,7 +151,9 @@ For local development, you'll need to configure the following environment variab
 4. Copy the "Preview" token for `STORYBLOK_PREVIEW_ACCESS_TOKEN`
 5. Copy the "Public" token for `STORYBLOK_ACCESS_TOKEN`
 
-### Example `.env.local`
+_**Note:** this step is skipped for this demo as content was specifically set up for use in the demo_
+
+### Example `.env`
 
 ```bash
 ENVIRONMENT=development
@@ -161,7 +163,7 @@ STORYBLOK_PREVIEW_ACCESS_TOKEN=your_preview_token_here
 DRAFT_MODE=true
 ```
 
-**Note:** Never commit your `.env.local` file to version control. It's already included in `.gitignore`.
+_**Note:** Never commit your `.env` file to version control. It's already included in `.gitignore`._
 
 ## Tech Stack
 
