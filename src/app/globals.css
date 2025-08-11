@@ -55,6 +55,9 @@ body {
   animation: collapse 0.2s ease-in forwards;
 }
 
-/* Talk about how this is needed because of how hover was updated in TailwindCSS v4 to only apply to the primary input device. Needed in this case because I'm developing on a Surface Pro 11 with a touchscreen and the hover state is not applied by default. */
+/* 
+ * TailwindCSS v4 restricts the `hover` variant to the primary input device, which can prevent hover styles from being applied on devices with touch input (e.g., Surface Pro 11).
+ * Defining a custom `hover` variant here ensures that hover states are consistently applied across all input types, including touchscreens.
+ */
 
 @custom-variant hover (&:hover);
