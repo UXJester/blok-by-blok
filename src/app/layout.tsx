@@ -1,8 +1,19 @@
+// Next.js
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import './globals.css';
+
+// Components
 import EnvironmentToggle from '@/components/EnvironmentToggle';
+
+// Utils
 import { getStoryblokConfig } from '@/utils/storyblok';
+
+// Vercel
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
+
+// Styles
+import './globals.css';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -42,6 +53,8 @@ export default async function RootLayout({
           />
         )}
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
