@@ -32,13 +32,15 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <EnvironmentToggle
-          currentEnvironment={environment}
-          currentDraftMode={isDraftMode}
-          apiUrl={process.env.STORYBLOK_API_URL || ''}
-          version={version}
-          token={token || ''}
-        />
+        {environment !== 'production' && (
+          <EnvironmentToggle
+            currentEnvironment={environment}
+            currentDraftMode={isDraftMode}
+            apiUrl={process.env.STORYBLOK_API_URL || ''}
+            version={version}
+            token={token || ''}
+          />
+        )}
         {children}
       </body>
     </html>
