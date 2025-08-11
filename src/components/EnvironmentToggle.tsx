@@ -15,8 +15,7 @@ export default function EnvironmentToggle({
   const [isExpanded, setIsExpanded] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  // Check if we're in Preview environment (Vercel preview deployment)
-  const isPreviewEnvironment = process.env.VERCEL_ENV === 'preview';
+  // Check if we're in production environment
   const isProductionEnvironment = process.env.VERCEL_ENV === 'production';
 
   // Don't render anything in production environment
@@ -112,8 +111,8 @@ export default function EnvironmentToggle({
           </div>
 
           <div className="flex flex-col gap-2">
-            {/* Only show environment toggle in development (not in Preview) */}
-            {!isPreviewEnvironment && (
+            {/* Only show environment toggle in development (not in Preview or Production) */}
+            {currentEnvironment === 'development' && (
               <button
                 onClick={toggleEnvironment}
                 disabled={isLoading || currentDraftMode}
@@ -137,10 +136,7 @@ export default function EnvironmentToggle({
 
             <button
               onClick={toggleDraftMode}
-              disabled={
-                isLoading ||
-                (!isPreviewEnvironment && currentEnvironment === 'production')
-              }
+              disabled={isLoading || currentEnvironment === 'production'}
               className={`px-3 py-1 text-sm text-white rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
                 currentDraftMode
                   ? 'bg-red-800 hover:bg-red-900 disabled:hover:bg-red-800'
@@ -149,21 +145,19 @@ export default function EnvironmentToggle({
             >
               {isLoading
                 ? 'Toggling...'
-                : !isPreviewEnvironment && currentEnvironment === 'production'
-                ? 'Draft Mode (Available in Preview Only)'
+                : currentEnvironment === 'production'
+                ? 'Draft Mode (Not Available in Production)'
                 : `${currentDraftMode ? 'Disable' : 'Enable'} Draft Mode`}
             </button>
 
-            {/* Only show reset button in development (not in Preview) */}
-            {!isPreviewEnvironment && (
-              <button
-                onClick={clearCookies}
-                disabled={isLoading}
-                className="px-3 py-1 text-sm bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-500"
-              >
-                {isLoading ? 'Clearing...' : 'Reset to .env'}
-              </button>
-            )}
+            {/* Show reset button in development and preview (not in Production) */}
+            <button
+              onClick={clearCookies}
+              disabled={isLoading}
+              className="px-3 py-1 text-sm bg-gray-500 text-white rounded cursor-pointer hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-500"
+            >
+              {isLoading ? 'Clearing...' : 'Reset to .env'}
+            </button>
 
             <div className="text-xs text-gray-600 mt-2 flex divide-x">
               <div className="px-2">Env: {currentEnvironment}</div>
