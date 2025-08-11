@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 
 // Components
 import EnvironmentToggle from '@/components/EnvironmentToggle';
+import CookieNotice from '@/components/CookieNotice';
 
 // Utils
 import { getStoryblokConfig } from '@/utils/storyblok';
@@ -53,6 +54,7 @@ export default async function RootLayout({
           />
         )}
         {children}
+        {process.env.VERCEL_ENV !== 'production' && <CookieNotice />}
         <Analytics />
         <SpeedInsights />
       </body>
