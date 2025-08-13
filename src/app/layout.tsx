@@ -55,8 +55,12 @@ export default async function RootLayout({
         )}
         {children}
         {process.env.VERCEL_ENV !== 'production' && <CookieNotice />}
-        <Analytics />
-        <SpeedInsights />
+        {process.env.VERCEL_ENV === 'production' && (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        )}
       </body>
     </html>
   );
